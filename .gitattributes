@@ -1,10 +1,2 @@
-init filter=lfs diff=lfs merge=lfs -text
-docker filter=lfs diff=lfs merge=lfs -text
-docker/caffe-colorizer.tar filter=lfs diff=lfs merge=lfs -text
-util/colorization_deploy_v1.prototxt filter=lfs diff=lfs merge=lfs -text
-util/colorization_deploy_v2.prototxt filter=lfs diff=lfs merge=lfs -text
-util/colorization_release_v1.caffemodel filter=lfs diff=lfs merge=lfs -text
-util/colorization_release_v2.caffemodel filter=lfs diff=lfs merge=lfs -text
-util/colorization_train_val_v2.prototxt filter=lfs diff=lfs merge=lfs -text
-util/fetch_release_models.sh filter=lfs diff=lfs merge=lfs -text
-util/pts_in_hull.npy filter=lfs diff=lfs merge=lfs -text
+
+server/resources/colorization_release_v2.caffemodel filter=lfs diff=lfs merge=lfs -text
