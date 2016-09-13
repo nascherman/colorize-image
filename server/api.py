@@ -26,8 +26,8 @@ def colorizeGet():
 
 @app.route('/api/colorize', methods=['POST'])
 def colroizePost():
-  inputPath = 'images/bw/'
-  outputPath = 'images/color'
+  inputPath = '/images/bw/'
+  outputPath = '/images/color'
   filename = 'test.png'
   if request.method == 'POST':
     input = request.get_json()
