@@ -21,7 +21,7 @@ def after_request(response):
 
 @app.route('/api/get', methods=['GET'])
 def colorizeGet():
-  colorize('./images/bw/salgado-1.jpg', './images/color/salgado-1.jpg')
+  colorize(os.path.join(cwd, 'images/bw/salgado-1.jpg'), os.path.join(cwd, 'images/color/salgado-1.jpg'))
   return 'OK';
 
 @app.route('/api/colorize', methods=['POST'])
