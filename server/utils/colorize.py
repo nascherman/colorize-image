@@ -9,8 +9,9 @@ import urllib
 import os
 
 cwd = os.getcwd()
+print(cwd)
 dropbox_url = 'https://dl.dropboxusercontent.com/u/36345484/colorization_release_v2.caffemodel'
-model_path = os.path.join(cwd, '/server/resources/', 'colorization_release_v2.caffemodel')
+model_path = os.path.join(cwd, 'resources/', 'colorization_release_v2.caffemodel')
 
 if os.path.exists(model_path) != True:
   print('fetching model')
@@ -26,12 +27,12 @@ try:
   PROTO_TEXT
 except NameError:
   print('no prototext. setting to default')
-  PROTO_TEXT = os.path.join(cwd, '/resources/colorization_deploy_v2.prototxt')
+  PROTO_TEXT = os.path.join(cwd, 'resources/colorization_deploy_v2.prototxt')
 try:
   RESOURCES
 except NameError:
   print('no resources. setting to default')
-  RESOURCES = os.path.join(cwd, '/resources/pts_in_hull.npy')
+  RESOURCES = os.path.join(cwd, 'resources/pts_in_hull.npy')
 
 # cpu_id = 0
 caffe.set_mode_cpu()
