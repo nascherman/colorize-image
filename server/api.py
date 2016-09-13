@@ -39,11 +39,11 @@ def colroizePost():
     fd.write(binary_data)
     fd.close()
 
-    outfile = colorize(infile, outfile)
-    encoded_output = base64.b64encode(open(outfile, 'rb').read())
+    output = colorize(infile, outfile)
+    
     body = {
       'status': 'OK',
-      'body': encoded_output
+      'body': output
     }
     os.remove(outfile)
     os.remove(infile)

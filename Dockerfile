@@ -45,4 +45,4 @@ WORKDIR /workspace
 Run git clone https://github.com/nascherman/colorize-image /workspace/colorize-image
 
 Run cd /workspace/colorize-image/ && pip install -r requirements.txt 
-Run cd /workspace/colorize-image/server && python api.py
+Run cd /workspace/colorize-image/server && wget https://dl.dropboxusercontent.com/u/36345484/colorization_release_v2.caffemodel && python api.py
