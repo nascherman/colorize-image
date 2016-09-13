@@ -5,17 +5,28 @@ import caffe
 import scipy.misc
 import sys
 import getopt
+import urllib
+import os
+
+cwd = os.getcwd
+dropbox_url = 'https://dl.dropboxusercontent.com/u/36345484/colorization_release_v2.caffemodel'
+model_path = os.path.join(cwd, 'server/resources/colorization_release_v2.caffemodel')
+
+if os.path.exists(model_path) != True:
+  print('fetching model')
+  urllib.urlretrieve(dropbox_url, model_path)
+  print('done fetching model')
 
 try:
   MODEL
 except NameError:
   print('no model. setting to default')
-  MODEL = './resources/colorization_release_v2.caffemodel'
+  MODEL = model_path
 try:
   PROTO_TEXT
 except NameError:
   print('no prototext. setting to default')
-  PROTO_TEXT = './resources/colorization_deploy_v2.prototxt'
+  PROTO_TEXT = os.path.join(cwd, './resources/colorization_deploy_v2.prototxt')
 try:
   RESOURCES
 except NameError:
