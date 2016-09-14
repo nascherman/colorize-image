@@ -72,4 +72,6 @@ def colorize(F_IN, F_OUT):
   img_rgb_out = np.clip(color.lab2rgb(img_lab_out),0,1) # convert back to rgb
   
   scipy.misc.imsave(F_OUT, img_rgb_out)
-  return F_OUT
+  encoded_output = base64.b64encode(open(F_OUT, 'rb').read())
+
+  return encoded_output
