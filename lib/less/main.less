@@ -1,4 +1,4 @@
-@foreground: #e9e9e9;
+@foreground: #eeeeee;
 @background: #161616; 
 
 body {
@@ -24,9 +24,36 @@ p {
   margin: 0;
 }
 
-#content {
+.landing-content {
   width: 100vw;
   height: 100vh;
-  margin-top: 15px;
-  margin-left: 40px;
+  padding: 20px 20px 20px 20px;
+  z-index: 0;
+}
+
+.background {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: block;
+  z-index: -1;
+  background-image: url("../images/background.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+// background overlay
+.background:after {
+  display: block;
+  background-color: black;
+  content: ' ';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  opacity: 0.2;
 }

@@ -1,0 +1,19 @@
+{
+  "header": {
+    "title": "Colorization",
+    "body": "Upload a png or jpg image to and see it colorized. If you have a short BW film (< 3mb) You can colorize it too"
+  },
+  "instructions": {
+    "title": "How To",
+    "body": "Click the begin button below to get started with uploading your image or video",
+    "images-before": ["bw-1.jpg", "bw-2.jpg", "bw-3.jpg" ],
+    "images-after": ["color-1.jpg", "color-2.jpg", "color-3.jpg" ]
+  },
+  "uploader": {
+    "title": "Upload",
+    "body": "click the button to upload your file and get started"
+  },
+  "footer": {
+    "button": "begin"
+  }
+}

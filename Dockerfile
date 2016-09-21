@@ -11,7 +11,6 @@ RUN sudo apt-get install -y --no-install-recommends \
         frei0r-plugins \
         git \
         wget \
-        ffmpeg \ 
         libatlas-base-dev \
         libboost-all-dev \
         libgflags-dev \

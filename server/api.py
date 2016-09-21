@@ -102,7 +102,8 @@ def colorizeVideo():
 
 def processVideo(filePath, filename, basePath, extension):
   statinfo = os.stat(filePath)
-  if (statinfo.st_size / 1000000 > 2.5):
+  if (statinfo.st_size / 1000000 > 10):
+    print('File size too large')
     return None
 
   os.mkdir(os.path.join(cwd, basePath, filename + '-temp'))
@@ -124,14 +125,17 @@ def processVideo(filePath, filename, basePath, extension):
     FRAME_RATE, 
     tempOutPath + '/' + 'bw-%03d.jpg'
   ]
+  print('Begin ffmpeg split')
   process = subprocess.Popen(args)
   process.wait()
+  print('End ffmpeg split')
 
   tempImageFiles = [f for f in os.listdir(tempOutPath) if os.path.isfile(os.path.join(tempOutPath, f))]
  
   for imageFile in tempImageFiles:
     print('Colorizing image ' + imageFile)
     colorize(tempOutPath + '/' + imageFile, tempOutPath + '/color' + imageFile.split('bw')[1])
+
 
   color_video_out = os.path.join(cwd, basePath, 'color/', filename + extension)
   args = [

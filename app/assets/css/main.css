@@ -26,7 +26,7 @@ body {
   font-weight: 400;
   font-size: 16px;
   background: black;
-  color: #e9e9e9;
+  color: #eeeeee;
   margin: 0;
   padding: 0;
   overflow-x: hidden;
@@ -40,9 +40,103 @@ p {
   padding: 0;
   margin: 0;
 }
-#content {
+.landing-content {
   width: 100vw;
   height: 100vh;
-  margin-top: 15px;
-  margin-left: 40px;
+  padding: 20px 20px 20px 20px;
+  z-index: 0;
+}
+.background {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: block;
+  z-index: -1;
+  background-image: url("../images/background.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+.background:after {
+  display: block;
+  background-color: black;
+  content: ' ';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  opacity: 0.2;
+}
+.header-container {
+  z-index: 999;
+  width: 100%;
+  height: 20%;
+}
+.header-title {
+  padding-top: 20px;
+  font-size: 24pt;
+  width: 100%;
+  height: 20%;
+  text-align: center;
+  color: white;
+}
+.header-body {
+  margin-top: 40px;
+  width: 100%;
+  height: 40%;
+  text-align: center;
+}
+.instructions-container {
+  z-index: 999;
+  width: 100%;
+  height: 20%;
+}
+.instructions-title {
+  padding-top: 20px;
+  font-size: 24pt;
+  width: 100%;
+  height: 20%;
+  text-align: center;
+  color: white;
+}
+.instructions-body {
+  margin-top: 40px;
+  width: 100%;
+  height: 40%;
+  text-align: center;
+}
+.footer-container {
+  z-index: 999;
+  width: 100%;
+  height: 20%;
+}
+.footer-button {
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.5);
+  width: 30%;
+  height: 50px;
+  padding-top: 10px;
+  margin-left: 35%;
+  z-index: 999;
+  -webkit-transition: background-color 2s;
+  transition: background-color 2s;
+}
+.footer-button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+.uploader-container {
+  position: fixed;
+  top: 200vh;
+  left: 15vw;
+  width: 70vw;
+  max-width: 500px;
+  height: 40vh;
+  background: #efefef;
+}
+.input-class {
+  width: 100%;
+  height: 10%;
 }
