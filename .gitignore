@@ -13,3 +13,6 @@ hotel_reviews_fixed.json.jsb
 **/*.jpg
 *.png
 *.jpg
+*tmp*
+**/*.mp4
+**/*.mov

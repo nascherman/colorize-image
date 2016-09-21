@@ -1,11 +1,17 @@
 FROM ubuntu:14.04
-MAINTAINER caffe-maint@googlegroups.com
+MAINTAINER n_scherman@hotmail.com
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN sudo apt-get update && sudo apt-get install software-properties-common python-software-properties && \
+    sudo add-apt-repository ppa:mc3man/trusty-media && \
+    
+RUN sudo apt-get install -y --no-install-recommends \
         build-essential \
         cmake \
+        ffmpeg \
+        frei0r-plugins \
         git \
         wget \
+        ffmpeg \ 
         libatlas-base-dev \
         libboost-all-dev \
         libgflags-dev \
@@ -33,7 +39,7 @@ RUN git clone -b ${CLONE_TAG} --depth 1 https://github.com/BVLC/caffe.git . && \
     for req in $(cat python/requirements.txt) pydot; do pip install $req; done && \
     mkdir build && cd build && \
     cmake -DCPU_ONLY=1 .. && \
-    make -j"$(nproc)"
+    make -j"$(nproc)"   
 
 ENV PYCAFFE_ROOT $CAFFE_ROOT/python
 ENV PYTHONPATH $PYCAFFE_ROOT:$PYTHONPATH
@@ -45,4 +51,6 @@ WORKDIR /workspace
 Run git clone https://github.com/nascherman/colorize-image /workspace/colorize-image
 
 Run cd /workspace/colorize-image/ && pip install -r requirements.txt 
-Run cd /workspace/colorize-image/server && wget https://dl.dropboxusercontent.com/u/36345484/colorization_release_v2.caffemodel && python api.py
+Run cd /workspace/colorize-image/server && wget https://dl.dropboxusercontent.com/u/36345484/colorization_release_v2.caffemodel && mv colorization_release_v2.caffemodel resources/  
+
+ENTRYPOINT cd /workspace/colorize-image/server && python api.py

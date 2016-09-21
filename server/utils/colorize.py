@@ -7,6 +7,8 @@ import sys
 import getopt
 import urllib
 import os
+# import base64
+from encode import encode_b64
 
 cwd = os.getcwd()
 print(cwd)
@@ -72,6 +74,6 @@ def colorize(F_IN, F_OUT):
   img_rgb_out = np.clip(color.lab2rgb(img_lab_out),0,1) # convert back to rgb
   
   scipy.misc.imsave(F_OUT, img_rgb_out)
-  encoded_output = base64.b64encode(open(F_OUT, 'rb').read())
+  # encoded_output = base64.b64encode(open(F_OUT, 'rb').read())
 
-  return encoded_output
+  return encode_b64(F_OUT)
