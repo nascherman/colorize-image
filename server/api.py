@@ -1,3 +1,4 @@
+from __future__ import division
 from flask import Flask, request, jsonify
 from flask_restful import Resource, Api
 from flask_cors import CORS, cross_origin
@@ -6,16 +7,16 @@ from utils.colorize import colorize
 # from utils.colorize import colorizeVideo
 from binascii import a2b_base64
 from tempfile import NamedTemporaryFile
-import subprocess
 from utils.encode import encode_b64
+from utils.process import process_video
+
+MAX_VIDEO_REQUEST_POOLS = 10
 
 cwd = os.getcwd()
 
 app = Flask(__name__)
 CORS(app)
 api = Api(app)
-
-FRAME_RATE = '12'
 
 @app.after_request
 def after_request(response):
@@ -47,7 +48,6 @@ def colorizeImage():
     fd.close()
 
     output = colorize(infile, outfile)
-    
     if(output != None):
       body = {
         'status': 'OK',
@@ -63,12 +63,22 @@ def colorizeImage():
     os.remove(infile)
     return jsonify(**body)
 
+video_colorize_count = 0
 @app.route('/api/colorize-video', methods=['POST'])
 def colorizeVideo():
   basePath = 'video/'
   inputPath = basePath + 'bw/'
   outputPath = basePath + 'color'
   if request.method == 'POST':
+    if video_colorize_count >= 10:
+      return jsonify({
+        'status': 500,
+        'body': {
+          'message': 'Colorize server busy. try again later '
+        }
+      })
+
+    video_colorize_count += 1
     input = request.get_json()
     filename = NamedTemporaryFile().name.split('/tmp/')[1]
     file = input['filestream']
@@ -81,7 +91,7 @@ def colorizeVideo():
     fd.write(binary_data)
     fd.close()
 
-    colorizedOutput = processVideo(infile, filename, basePath, extension)    
+    colorizedOutput = process_video(infile, filename, basePath, extension)    
 
     if (colorizedOutput != None):    
       body = {
@@ -96,68 +106,10 @@ def colorizeVideo():
         }
       }
 
-  #  os.remove(outfile)
-  #  os.remove(infile)
+    os.remove(outfile)
+    os.remove(infile)
+    video_colorize_count -= 1
     return jsonify(**body)
-
-def processVideo(filePath, filename, basePath, extension):
-  statinfo = os.stat(filePath)
-  if (statinfo.st_size / 1000000 > 10):
-    print('File size too large')
-    return None
-
-  os.mkdir(os.path.join(cwd, basePath, filename + '-temp'))
-  tempOutPath = os.path.join(cwd,  basePath, filename + '-temp')
-
-  args = [
-    'ffmpeg', 
-    '-i', 
-    filePath, 
-    '-y', 
-    '-ss', 
-    '0', 
-    '-an', 
-    '-qscale', 
-    '0', 
-    '-f', 
-    'image2', 
-    '-r', 
-    FRAME_RATE, 
-    tempOutPath + '/' + 'bw-%03d.jpg'
-  ]
-  print('Begin ffmpeg split')
-  process = subprocess.Popen(args)
-  process.wait()
-  print('End ffmpeg split')
-
-  tempImageFiles = [f for f in os.listdir(tempOutPath) if os.path.isfile(os.path.join(tempOutPath, f))]
- 
-  for imageFile in tempImageFiles:
-    print('Colorizing image ' + imageFile)
-    colorize(tempOutPath + '/' + imageFile, tempOutPath + '/color' + imageFile.split('bw')[1])
-
-
-  color_video_out = os.path.join(cwd, basePath, 'color/', filename + extension)
-  args = [
-    'ffmpeg',
-    '-framerate',
-    FRAME_RATE,
-    '-i',
-    tempOutPath + '/color-%04d.jpg',
-    '-c:v',
-    'libx264',
-    '-r',
-    FRAME_RATE,
-    '-pix_fmt',
-    'yuv420p',
-    color_video_out
-  ]  
-
-  process = subprocess.Popen(args)
-  process.wait()
-
-  return encode_b64(color_video_out)
-
 
 if __name__ == '__main__':
   app.run(host='0.0.0.0', port=int(os.environ.get('PORT', '5000')), debug=True)

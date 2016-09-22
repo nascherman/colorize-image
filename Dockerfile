@@ -10,6 +10,7 @@ RUN sudo apt-get install -y --no-install-recommends \
         ffmpeg \
         frei0r-plugins \
         git \
+        imagemagick \
         wget \
         libatlas-base-dev \
         libboost-all-dev \

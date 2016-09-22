@@ -28,6 +28,7 @@
     "defined": "^1.0.0",
     "got": "^6.3.0",
     "gsap": "^1.19.0",
+    "halogen": "^0.2.0",
     "less-css-stream": "^1.0.0",
     "less-plugin-autoprefix": "^1.5.1",
     "line-stream": "^1.0.0",
