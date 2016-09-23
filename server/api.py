@@ -4,7 +4,6 @@ from flask_restful import Resource, Api
 from flask_cors import CORS, cross_origin
 import os
 from utils.colorize import colorize
-# from utils.colorize import colorizeVideo
 from binascii import a2b_base64
 from tempfile import NamedTemporaryFile
 from utils.encode import encode_b64
@@ -72,20 +71,21 @@ def colorizeVideo():
   global video_colorize_count
   outputPath = basePath + 'color'
   if request.method == 'POST':
-    if video_colorize_count >= 10:
-      return jsonify({
-        'status': 500,
-        'body': {
-          'message': 'Colorize server busy. try again later '
-        }
-      })
-
-    video_colorize_count += 1
     input = request.get_json()
     filename = NamedTemporaryFile().name.split('/tmp/')[1]
     file = input['filestream']
     extension = input['extension']
     filename_extension = filename + extension
+    if video_colorize_count >= 10:
+      return jsonify({
+        'status': 500,
+        'body': 'Colorize server busy. try again later '
+      })
+
+    # colorize video requires better infrastructure so is left out
+    return jsonify(status='500', message='Colorizing video is unavailable due to resource constraints')
+
+    video_colorize_count += 1
     binary_data = a2b_base64(file)
     infile = os.path.join(cwd, inputPath, filename_extension)
     outfile = os.path.join(cwd, outputPath, filename_extension)
@@ -103,9 +103,7 @@ def colorizeVideo():
     else:
       body = {
         'status': 400,
-        'body': {
-          'message': 'File size too large'
-        }
+        'body': 'File size too large'
       }
 
     os.remove(outfile)
