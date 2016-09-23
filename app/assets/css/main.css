@@ -169,12 +169,15 @@ p {
 }
 .image-container img {
   width: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 .image-container video {
   width: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 .empty-image {
-  height: 100%;
   background-image: url("../images/empty-image.png");
   background-repeat: no-repeat;
   background-size: cover;

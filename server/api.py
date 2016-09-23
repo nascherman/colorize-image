@@ -11,6 +11,8 @@ from utils.encode import encode_b64
 from utils.process import process_video
 
 MAX_VIDEO_REQUEST_POOLS = 10
+global video_colorize_count 
+video_colorize_count = 0
 
 cwd = os.getcwd()
 
@@ -63,11 +65,11 @@ def colorizeImage():
     os.remove(infile)
     return jsonify(**body)
 
-video_colorize_count = 0
 @app.route('/api/colorize-video', methods=['POST'])
 def colorizeVideo():
   basePath = 'video/'
   inputPath = basePath + 'bw/'
+  global video_colorize_count
   outputPath = basePath + 'color'
   if request.method == 'POST':
     if video_colorize_count >= 10:

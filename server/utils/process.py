@@ -3,6 +3,9 @@ import os
 from colorize import colorize
 from subprocess import Popen, PIPE
 from json import loads
+from encode import encode_b64
+from Queue import Queue
+from threading import Thread
 
 cwd = os.getcwd()
 
@@ -63,12 +66,19 @@ def process_video(filePath, filename, basePath, extension):
   process = Popen(args)
   process.wait()
 
+  queue = Queue(maxsize=0)
+
   tempImageFiles = [f for f in os.listdir(tempOutPath) if os.path.isfile(os.path.join(tempOutPath, f))]
- 
   for imageFile in tempImageFiles:
     print('colorize ' + imageFile)
-    colorize(tempOutPath + '/' + imageFile, tempOutPath + '/color' + imageFile.split('bw')[1])
-    os.remove(tempOutPath + '/' + imageFile)
+    infile = tempOutPath + '/' + imageFile
+    outfile = tempOutPath + '/color' + imageFile.split('bw')[1]
+    t = Thread(target=colorize_thread, args=(infile, outfile, queue))
+    t.daemon = True
+    t.start()
+    # colorize(, )
+  
+  thread_out = queue.get()
 
   color_video_out = os.path.join(cwd, basePath, 'color/', filename + extension)
   args = [
@@ -93,6 +103,12 @@ def process_video(filePath, filename, basePath, extension):
   for imageFile in tempImageFiles:
     os.remove(tempOutPath + '/' + imageFile)
 
-  os.remove(tempOutPath)
-  
+  os.rmdir(tempOutPath)
   return encode_b64(color_video_out)
+
+def colorize_thread(infile, outfile, q):
+  colorize(infile, outfile)
+  print('done colorize ', infile)
+  os.remove(infile)
+  q.put(outfile)
+  
