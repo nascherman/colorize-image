@@ -53,6 +53,7 @@
     "esprima": "^2.7.3",
     "event-stream": "^3.3.4",
     "map-limit": "0.0.1",
+    "uglifyjs": "^2.4.10",
     "uniq": "^1.0.1"
   },
   "scripts": {
@@ -61,7 +62,7 @@
     "server": "python server/api.py",
     "server-prod": "python server/wsgi-start.py",
     "start": "node tools/bundler.js",
-    "build": "node tools/bundler.js production && browserify lib/index.js -t babelify > app/bundle.js"
+    "build": "node tools/bundler.js production && browserify lib/index.js -t babelify | uglifyjs > app/bundle.js"
   },
   "keywords": [],
   "repository": {
