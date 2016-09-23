@@ -48,7 +48,7 @@ RUN echo "$CAFFE_ROOT/build/lib" >> /etc/ld.so.conf.d/caffe.conf && ldconfig
 
 WORKDIR /workspace
 
-Run git clone https://github.com/nascherman/colorize-image /workspace/colorize-image
+Run git clone -b server https://github.com/nascherman/colorize-image /workspace/colorize-image
 
 Run cd /workspace/colorize-image/ && pip install -r requirements.txt 
 Run cd /workspace/colorize-image/server && wget https://dl.dropboxusercontent.com/u/36345484/colorization_release_v2.caffemodel && mv colorization_release_v2.caffemodel resources/  
