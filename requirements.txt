@@ -1,7 +1,7 @@
 Flask==0.11.1
 Flask-Cors==3.0.0
 Flask-RESTful==0.3.5
-Werkzeug==0.11.10
+Werkzeug==0.15.3
 itsdangerous==0.24
 leveldb==0.193
 matplotlib==1.5.2
